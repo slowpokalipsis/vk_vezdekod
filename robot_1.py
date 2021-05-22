@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 
 with open ('data.txt', 'r') as inp:
     txt = [i for i in inp.readlines()]
@@ -34,11 +35,10 @@ for big_l in range(len(l3)):
     fin_l.extend(almost_fin_l)
 
 fin_pd = pd.DataFrame(fin_l, columns=['quality', 'angle', 'distance'])
-fin_pd['x'] = fin_pd['distance'] * np.cos(fin_pd['angle'])
-fin_pd['y'] = fin_pd['distance'] * np.sin(fin_pd['angle'])
+fin_pd['rad'] = fin_pd['angle'].apply(lambda x: np.deg2rad(x))
+fin_pd['x'] = fin_pd['distance'] * fin_pd['rad'].apply(lambda x: math.cos(x))
+fin_pd['y'] = fin_pd['distance'] * fin_pd['rad'].apply(lambda x: math.sin(x))
 fig, ax = plt.subplots()
 ax.plot(fin_pd['x'], fin_pd['y'], marker='o', linestyle='')
-ax.figure.set_size_inches(20, 20)
+# plt.show()
 plt.savefig('laser__в2рая_жизнь_туалетной_бумаги.png')
-
-
